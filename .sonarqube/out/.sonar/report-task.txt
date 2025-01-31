@@ -1,0 +1,6 @@
+projectKey=rajkumarp:DemoTask1
+serverUrl=http://localhost:9099
+serverVersion=9.9.1.69595
+dashboardUrl=http://localhost:9099/dashboard?id=rajkumarp%3ADemoTask1
+ceTaskId=AYxIftcVpXITRkfkpL8x
+ceTaskUrl=http://localhost:9099/api/ce/task?id=AYxIftcVpXITRkfkpL8x
