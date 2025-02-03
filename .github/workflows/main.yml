@@ -17,13 +17,13 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      #- name: Setup NuGet
-        #uses: NuGet/setup-nuget@v1.0.2
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
 
-      - name: Setup .NET (includes NuGet)
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0'
+     # - name: Setup .NET (includes NuGet)
+     #   uses: actions/setup-dotnet@v3
+      #  with:
+       #   dotnet-version: '6.0'
 
       - name: Navigate To Workspace
         run: cd $GITHUB_WORKSPACE
