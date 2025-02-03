@@ -13,7 +13,19 @@ jobs:
       
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
-        #
+        
+      - name: Remove temporary directory with retry
+        run: |
+          echo "Attempting to remove directory..."
+          tryCount=0
+          maxRetries=5
+          dir="E:\\GitHub Runner\\actions-runner-win-x64-2.321.0\\_work\\_temp\\71440b1f-43fb-4a98-af38-16ef9796e5ac"
+          until rmdir /s /q "$dir" || [ $tryCount -eq $maxRetries ]; do
+            echo "Retrying to remove the directory..."
+            tryCount=$((tryCount + 1))
+            sleep 1
+          done
+        continue-on-error: true 
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
