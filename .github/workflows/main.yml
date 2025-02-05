@@ -24,7 +24,9 @@ jobs:
 
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.2
-
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+          
      # - name: Setup .NET (includes NuGet)
      #   uses: actions/setup-dotnet@v3
       #  with:
