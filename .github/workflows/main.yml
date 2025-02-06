@@ -77,4 +77,4 @@ jobs:
             msdeploy-username: ${{ secrets.MSDEPLOY_USERNAME }}
             msdeploy-password: ${{ secrets.MSDEPLOY_PASSWORD }}
             msdeploy-skipextrafilesonserver: true
-            source-path: E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\FrameWork
+            source-path: E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\
