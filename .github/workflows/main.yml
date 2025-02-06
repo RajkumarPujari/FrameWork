@@ -53,7 +53,13 @@ jobs:
         with:
           name: DemoBuild
           path: "./_build"
- 
+      
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: DemoBuild
+          path:  E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
+  
   deploy:
       runs-on: self-hosted  # Ensure this is a valid self-hosted runner
       needs: build
@@ -62,7 +68,6 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: DemoBuild
-            path:  E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\FrameWork
             
         - name: Deploy to IIS
           uses: ChristopheLav/iis-deploy@v1
