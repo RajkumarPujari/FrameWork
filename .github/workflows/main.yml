@@ -23,7 +23,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.2
+        uses: NuGet/setup-nuget@v1.0.5
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
           
@@ -53,4 +53,22 @@ jobs:
         with:
           name: DemoBuild
           path: "./_build"
-        
+ 
+  deploy:
+      runs-on: self-hosted  # Ensure this is a valid self-hosted runner
+      needs: build
+      steps:
+        - name: Download Artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: DemoBuild
+            
+        - name: Deploy to IIS
+          uses: ChristopheLav/iis-deploy@v1
+          with:
+            website-name: 'MyWebsite'
+            msdeploy-service-url: ${{ secrets.MSDEPLOY_URL }}
+            msdeploy-username: ${{ secrets.MSDEPLOY_USERNAME }}
+            msdeploy-password: ${{ secrets.MSDEPLOY_PASSWORD }}
+            msdeploy-skipextrafilesonserver: true
+            source-path: ./_build        
