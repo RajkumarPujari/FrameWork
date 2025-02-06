@@ -35,10 +35,11 @@ jobs:
       # - name: Navigate To Workspace
       #   run: cd $GITHUB_WORKSPACE
 
-      - name: Crearte Build Directory
-        run: mkdir _build
+      # - name: Crearte Build Directory
+      #   run: mkdir _build
 
       - name: Restore Packages
+        shell: cmd
         run: nuget restore WebApplication1.sln
 
       - name: Build Solution
