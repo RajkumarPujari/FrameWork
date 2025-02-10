@@ -68,23 +68,20 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: DemoBuild
-
-        - name: Install PowerShell Core
-          run: |
-            if (-not (Get-Command pwsh -ErrorAction SilentlyContinue)) {
-            Write-Host "Installing PowerShell Core..."
-            winget install --id Microsoft.Powershell --source winget
-            } else {
-            Write-Host "PowerShell Core is already installed."
-            }
-          shell: powershell
       
-        - name: Deploy to IIS
-          uses: ChristopheLav/iis-deploy@v1
-          with:
-            website-name: 'MyWebsite'
-            msdeploy-service-url: ${{ secrets.MSDEPLOY_URL }}
-            msdeploy-username: ${{ secrets.MSDEPLOY_USERNAME }}
-            msdeploy-password: ${{ secrets.MSDEPLOY_PASSWORD }}
-            msdeploy-skipextrafilesonserver: true
-            source-path: E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
+        # - name: Deploy to IIS
+        #   uses: ChristopheLav/iis-deploy@v1
+        #   shell: cmd
+        #   with:
+        #     website-name: 'MyWebsite'
+        #     msdeploy-service-url: ${{ secrets.MSDEPLOY_URL }}
+        #     msdeploy-username: ${{ secrets.MSDEPLOY_USERNAME }}
+        #     msdeploy-password: ${{ secrets.MSDEPLOY_PASSWORD }}
+        #     msdeploy-skipextrafilesonserver: true
+        #     source-path: E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
+
+        - name: Deploy to IIS using CMD
+          run: |
+            "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync -source:contentPath="E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork" -dest:contentPath="MyWebsite",computerName="${{ secrets.MSDEPLOY_URL }}",username="${{ secrets.MSDEPLOY_USERNAME }}",password="${{ secrets.MSDEPLOY_PASSWORD }}" -skip:objectName=dirPath,absolutePath="App_Data"
+          shell: cmd
+             
