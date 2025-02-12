@@ -44,13 +44,13 @@ jobs:
       - name: Build Solution
         shell: cmd
         run: |
-          msbuild WebApplication1.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=fileSystem /p:DeleteExistingFiles=true /p:Platform="Any CPU" /p:Configuration="Release" /p:PublishUrl="$GITHUB_WORKSPACE/out"
+          msbuild WebApplication1.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
     
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Framework
-          path: "$GITHUB_WORKSPACE/out"
+          path: "./_build"
       
         
   deploy:
