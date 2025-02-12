@@ -27,15 +27,15 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
           
-      - name: Navigate To Workspace
-        shell: cmd
-        run: |
-          cd $GITHUB_WORKSPACE
+      # - name: Navigate To Workspace
+      #   shell: cmd
+      #   run: |
+      #     cd $GITHUB_WORKSPACE
 
-      - name: Crearte Build Directory
-        shell: cmd
-        run: |
-          mkdir out
+      # - name: Crearte Build Directory
+      #   shell: cmd
+      #   run: |
+      #     mkdir out
         
       - name: Restore Packages
         shell: cmd
@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DemoBuild
-          path: $GITHUB_WORKSPACE/out
+          path: "out"
       
         
   deploy:
@@ -61,7 +61,7 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: DemoBuild
-            path: "build"
+            path: "out"
       
         # - name: Deploy to IIS
         #   uses: ChristopheLav/iis-deploy@v1
