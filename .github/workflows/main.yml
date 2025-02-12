@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DemoBuild
-          path: "out"
+          path: "E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\out"
       
         
   deploy:
@@ -61,7 +61,7 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: DemoBuild
-            path: "out"
+            path: "E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\publish"
       
         # - name: Deploy to IIS
         #   uses: ChristopheLav/iis-deploy@v1
@@ -77,7 +77,7 @@ jobs:
           run: |
             
             & 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe' -verb:sync `
-            -source:contentPath="E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\FrameWork\bin\Release\Publish" `
+            -source:contentPath="E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\publish" `
             -dest:contentPath="YourIISWebsite",computerName="${{ secrets.MSDEPLOY_URL }}e", `
               username="${{ secrets.MSDEPLOY_USERNAME }}",password="${{ secrets.MSDEPLOY_PASSWORD }}",authType="Basic" `
             -allowUntrusted
