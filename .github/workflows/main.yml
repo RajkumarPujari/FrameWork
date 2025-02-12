@@ -27,13 +27,15 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
           
-      # - name: Navigate To Workspace
-      #   run: cd $GITHUB_WORKSPACE
+      - name: Navigate To Workspace
+        shell: cmd
+        run: |
+          cd $GITHUB_WORKSPACE
 
       - name: Crearte Build Directory
         shell: cmd
         run: |
-          mkdir -p $GITHUB_WORKSPACE/out
+          mkdir out
         
       - name: Restore Packages
         shell: cmd
