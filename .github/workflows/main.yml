@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DemoBuild
-          path: "E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\out"
+          path: "E:/action-runner/actions-runner-win-x64-2.322.0/_work/FrameWork/out"
       
         
   deploy:
@@ -61,7 +61,7 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: DemoBuild
-            path: "E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\publish"
+            path: "E:/action-runner/actions-runner-win-x64-2.322.0/_work/FrameWork/out"
       
         # - name: Deploy to IIS
         #   uses: ChristopheLav/iis-deploy@v1
