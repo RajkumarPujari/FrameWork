@@ -54,7 +54,7 @@ jobs:
       
         
   deploy:
-      runs-on: self-hosted # Ensure this is a valid self-hosted runner
+      runs-on: self-hosted
       needs: build
       steps:
         - name: Download Artifact
