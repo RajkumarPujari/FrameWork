@@ -75,18 +75,16 @@ jobs:
 
         - name: Deploy to IIS using CMD
           shell: cmd
-          run: |
-            $msDeployPath = "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"
-            $sourcePath = "E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\publish"
-            $destServer = "${{ secrets.MSDEPLOY_URL }}e"
-            $destSite = "YourIISWebsite"
+          run: |             
+            $remoteServer = "${{ secrets.MSDEPLOY_URL }}"
             $username = "${{ secrets.MSDEPLOY_USERNAME }}"
-            $password = "${{ secrets.MSDEPLOY_PASSWORD }}"
-
-            & $msDeployPath -verb:sync `
-              -source:contentPath="$sourcePath" `
-              -dest:contentPath="$destSite",computerName="$destServer", `
-                username="$username",password="$password",authType="Basic" `
-              -allowUntrusted
-                  
-             
+            $password = ConvertTo-SecureString "${{ secrets.MSDEPLOY_PASSWORD }}" -AsPlainText -Force
+            $credential = New-Object System.Management.Automation.PSCredential($username, $password)
+            $session = New-PSSession -ComputerName $remoteServer -Credential $credential -Authentication Negotiate
+            Copy-Item -Path './path/to/publish/folder/*' -Destination 'E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\publish' -Recurse -Force -ToSession $session
+            
+            Invoke-Command -Session $session -ScriptBlock {
+              Stop-WebAppPool -Name "AppPool"  # Replace with your IIS app pool name
+              Start-WebAppPool -Name "AppPool"
+            }
+            Remove-PSSession -Session $session
