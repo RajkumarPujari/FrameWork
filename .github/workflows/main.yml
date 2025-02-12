@@ -45,20 +45,26 @@ jobs:
       - name: Build Solution
         shell: cmd
         run: |
-          msbuild.exe WebApplication1.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=fileSystem /p:DeleteExistingFiles=true /p:Platform="Any CPU" /p:Configuration="Release" /p:PublishUrl="../_build"
+          msbuild WebApplication1.sln /p:Configuration=Release /p:Platform="Any CPU"
+          
+      #/nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=fileSystem /p:DeleteExistingFiles=true /p:Platform="Any CPU" /p:Configuration="Release" /p:PublishUrl="build"
 
-      
+      - name: Publish Website
+        shell: cmd
+        run: |
+          msbuild WebApplication1.csproj /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Configuration=Release
+    
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: DemoBuild
-          path: "./_build"
+          path: "build"
       
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: DemoBuild
-          path:  E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
+      # - name: Download Artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: DemoBuild
+      #     path:  E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
   
   deploy:
       runs-on: self-hosted  # Ensure this is a valid self-hosted runner
@@ -68,6 +74,7 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: DemoBuild
+            path: "build"
       
         # - name: Deploy to IIS
         #   uses: ChristopheLav/iis-deploy@v1
@@ -81,6 +88,11 @@ jobs:
 
         - name: Deploy to IIS using CMD
           run: |
-            "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync -source:contentPath="E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork" -dest:contentPath="MyWebsite",computerName="${{ secrets.MSDEPLOY_URL }}",username="${{ secrets.MSDEPLOY_USERNAME }}",password="${{ secrets.MSDEPLOY_PASSWORD }}" -skip:objectName=dirPath,absolutePath="App_Data"
+            
+            & 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe' -verb:sync `
+            -source:contentPath="E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\FrameWork\bin\Release\Publish" `
+            -dest:contentPath="YourIISWebsite",computerName="${{ secrets.MSDEPLOY_URL }}e", `
+              username="${{ secrets.MSDEPLOY_USERNAME }}",password="${{ secrets.MSDEPLOY_PASSWORD }}",authType="Basic" `
+            -allowUntrusted
           shell: cmd
              
