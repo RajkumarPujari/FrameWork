@@ -27,17 +27,12 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
           
-     # - name: Setup .NET (includes NuGet)
-     #   uses: actions/setup-dotnet@v3
-      #  with:
-       #   dotnet-version: '6.0'
-
       # - name: Navigate To Workspace
       #   run: cd $GITHUB_WORKSPACE
 
-      # - name: Crearte Build Directory
-      #   run: mkdir _build#
-
+      - name: Crearte Build Directory
+        run: mkdir -p $GITHUB_WORKSPACE/out
+        
       - name: Restore Packages
         shell: cmd
         run: nuget restore WebApplication1.sln
@@ -45,20 +40,15 @@ jobs:
       - name: Build Solution
         shell: cmd
         run: |
-          msbuild WebApplication1.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=fileSystem /p:DeleteExistingFiles=true /p:Platform="Any CPU" /p:Configuration="Release" /p:PublishUrl="build"
+          msbuild WebApplication1.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=fileSystem /p:DeleteExistingFiles=true /p:Platform="Any CPU" /p:Configuration="Release" /p:PublishUrl="out"
     
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: DemoBuild
-          path: "build"
+          path: $GITHUB_WORKSPACE/out
       
-      # - name: Download Artifact
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: DemoBuild
-      #     path:  E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
-  
+        
   deploy:
       runs-on: self-hosted  # Ensure this is a valid self-hosted runner
       needs: build
