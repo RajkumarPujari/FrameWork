@@ -74,12 +74,19 @@ jobs:
         #     source-path: E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
 
         - name: Deploy to IIS using CMD
-          run: |
-            
-            & 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe' -verb:sync `
-            -source:contentPath="E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\publish" `
-            -dest:contentPath="YourIISWebsite",computerName="${{ secrets.MSDEPLOY_URL }}e", `
-              username="${{ secrets.MSDEPLOY_USERNAME }}",password="${{ secrets.MSDEPLOY_PASSWORD }}",authType="Basic" `
-            -allowUntrusted
           shell: cmd
+          run: |
+            $msDeployPath = "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"
+            $sourcePath = "E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\publish"
+            $destServer = "${{ secrets.MSDEPLOY_URL }}e"
+            $destSite = "YourIISWebsite"
+            $username = "${{ secrets.MSDEPLOY_USERNAME }}"
+            $password = "${{ secrets.MSDEPLOY_PASSWORD }}"
+
+            & $msDeployPath -verb:sync `
+              -source:contentPath="$sourcePath" `
+              -dest:contentPath="$destSite",computerName="$destServer", `
+                username="$username",password="$password",authType="Basic" `
+              -allowUntrusted
+                  
              
