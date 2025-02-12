@@ -32,10 +32,10 @@ jobs:
       #   run: |
       #     cd $GITHUB_WORKSPACE
 
-      # - name: Crearte Build Directory
-      #   shell: cmd
-      #   run: |
-      #     mkdir out
+      - name: Crearte Build Directory
+        shell: cmd
+        run: |
+          mkdir out
         
       - name: Restore Packages
         shell: cmd
