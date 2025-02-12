@@ -52,7 +52,7 @@ jobs:
       - name: Publish Website
         shell: cmd
         run: |
-          msbuild WebApplication1.csproj /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Configuration=Release
+          msbuild WebApplication1/WebApplication1.csproj /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:Configuration=Release
     
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
