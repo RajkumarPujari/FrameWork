@@ -74,7 +74,7 @@ jobs:
         #     source-path: E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
 
         - name: Deploy to IIS using CMD
-          shell: powershell
+          shell: cmd
           run: |             
             set REMOTE_SERVER=${{ secrets.MSDEPLOY_URL }}
             set USERNAME=${{ secrets.MSDEPLOY_USERNAME }}
