@@ -79,5 +79,7 @@ jobs:
             set REMOTE_SERVER=${{ secrets.MSDEPLOY_URL }}
             set USERNAME=${{ secrets.MSDEPLOY_USERNAME }}
             set PASSWORD=${{ secrets.MSDEPLOY_PASSWORD }}
-            PsExec.exe \\%REMOTE_SERVER% -u %USERNAME% -p %PASSWORD% cmd /c "xcopy /E /I /Y /H C:\path\to\publish\* C:\inetpub\wwwroot\YourApp"
-            PsExec.exe \\%REMOTE_SERVER% -u %USERNAME% -p %PASSWORD% cmd /c "iisreset /restart"
+            net use Z: \\%REMOTE_SERVER%\C$\inetpub\wwwroot\YourApp /user:%USERNAME% %PASSWORD%        
+            xcopy /E /I /Y /H "C:\path\to\publish\*" "Z:\"
+            wmic /node:%REMOTE_SERVER% /user:%USERNAME% /password:%PASSWORD% service where name="W3SVC" call restartservice
+            net use Z: /delete
