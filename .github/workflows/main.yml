@@ -77,7 +77,7 @@ jobs:
           shell: cmd
           run: |             
             @echo off
-            set "siteName=DeployGitHub"
+            set "siteName=IISGitHub"
             set "publishPath=E:/action-runner/actions-runner-win-x64-2.322.0/_work/FrameWork/out" REM Adjust this path to your published project location
             set "deployPath=E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\Publish"
             echo Stopping IIS site %siteName%...
@@ -89,6 +89,7 @@ jobs:
             echo Starting IIS site %siteName%...
             %SystemRoot%\System32\inetsrv\appcmd start site /site.name:%siteName% > nul 2>&1
             echo Deployment to IIS completed.
+          continue-on-error: true
             
             
             
