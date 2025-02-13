@@ -74,7 +74,23 @@ jobs:
         #     source-path: E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork
 
         - name: Deploy to IIS using CMD
-          shell: cmd
+          shell: powershell
           run: |             
-            "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync -source:contentPath="E:/action-runner/actions-runner-win-x64-2.322.0/_work/FrameWork/out" -dest:iisApp="DeployGitHub",computerName="${{ secrets.MSDEPLOY_URL }}",username="${{ secrets.MSDEPLOY_USERNAME }}",password="${{ secrets.MSDEPLOY_PASSWORD }}",authType="Basic" -allowUntrusted
+            @echo off
+            set "siteName=actionswebsite"
+            set "publishPath=E:/action-runner/actions-runner-win-x64-2.322.0/_work/FrameWork/out" REM Adjust this path to your published project location
+            set "deployPath=E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\Publish"
+            echo Stopping IIS site %siteName%...
+            %SystemRoot%\System32\inetsrv\appcmd stop site /site.name:%siteName% > nul 2>&1
+            echo Removing existing content from %siteName%...
+            rmdir /S /Q %deployPath% > nul 2>&1
+            echo Copying published files to IIS site %siteName%...
+            xcopy /Y /E /I "%publishPath%\*" %deployPath%
+            echo Starting IIS site %siteName%...
+            %SystemRoot%\System32\inetsrv\appcmd start site /site.name:%siteName% > nul 2>&1
+            echo Deployment to IIS completed.
+            
+            
+            
+          #"C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync -source:contentPath="E:/action-runner/actions-runner-win-x64-2.322.0/_work/FrameWork/out" -dest:iisApp="DeployGitHub",computerName="${{ secrets.MSDEPLOY_URL }}",username="${{ secrets.MSDEPLOY_USERNAME }}",password="${{ secrets.MSDEPLOY_PASSWORD }}",authType="Basic" -allowUntrusted
 
