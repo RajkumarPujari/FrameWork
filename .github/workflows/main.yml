@@ -77,7 +77,7 @@ jobs:
           shell: powershell
           run: |             
             @echo off
-            set "siteName=actionswebsite"
+            set "siteName=DeployGitHub"
             set "publishPath=E:/action-runner/actions-runner-win-x64-2.322.0/_work/FrameWork/out" REM Adjust this path to your published project location
             set "deployPath=E:\action-runner\actions-runner-win-x64-2.322.0\_work\FrameWork\Publish"
             echo Stopping IIS site %siteName%...
