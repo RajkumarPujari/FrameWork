@@ -26,13 +26,10 @@ namespace WebApplication1.Controllers
 
             return View();
         }
-        public int add()
+        
+        public int Add(int a, int b)
         {
-            int a = 10;
-            int b = 20;
-            int c;
-            c = a + b;
-            return c;
-        }
+            return a + b;
+        }  
     }
 }
