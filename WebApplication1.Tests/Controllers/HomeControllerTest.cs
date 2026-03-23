@@ -50,5 +50,18 @@ namespace WebApplication1.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void Add()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+
+            // Act
+            int result = controller.Add(3, 5);
+
+            // Assert
+            Assert.AreEqual(8, result);
+        }
     }
 }
